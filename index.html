@@ -138,10 +138,19 @@
     </div>
 
     <footer class="max-w-4xl mx-auto mt-10 mb-8 text-center text-gray-500 text-sm no-print">
-        © <span data-ar="رياضيات الصف 12 متقدم | قاعدة الضرب والقسمة" data-en="Grade 12 Advanced Math | Product & Quotient Rules">رياضيات الصف 12 متقدم | قاعدة الضرب والقسمة</span> | Mr Mohammed Hesham
+        © <span data-ar="رياضيات الصف 12 متقدم | قاعدة الضرب والقسمة" data-en="Grade 12 Advanced Math | Product & Quotient Rules">رياضيات الصف 12 متقدم | قاعدة الضرب والقسمة</span> | Mr. Mohammed Hesham
     </footer>
 
 <script>
+// ==================== إعدادات EmailJS ====================
+const PUBLIC_KEY = "Rb3Lq8tXaFmc5YHUH";
+const SERVICE_ID = "service_w15m64i";
+const TEMPLATE_ID = "template_5b0u2tq";
+const TARGET_EMAIL = "mohammedhesham872@gmail.com";
+
+// تهيئة EmailJS عند تحميل الصفحة
+emailjs.init(PUBLIC_KEY);
+
 const originalExamData = {
     sections: [
         {
@@ -608,7 +617,7 @@ function sendResultsToEmail() {
     const btn = document.getElementById('sendEmailBtn');
     const status = document.getElementById('emailStatus');
     btn.disabled = true;
-    btn.textContent = currentLang === 'ar' ? '⏳ جاري الإرسال...' : ' Sending...';
+    btn.textContent = currentLang === 'ar' ? '⏳ جاري الإرسال...' : '📤 Sending...';
 
     const name = document.getElementById('studentName').value || 'N/A';
     const studentClass = document.getElementById('studentClass').value || 'N/A';
@@ -634,13 +643,13 @@ function sendResultsToEmail() {
             <div style="background: #f0fdfa; padding: 15px; border: 1px solid #99f6e4;">
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
-                        <td style="padding: 8px; font-weight: bold; color: #0f766e;">${currentLang === 'ar' ? ' الاسم:' : '👤 Name:'}</td>
+                        <td style="padding: 8px; font-weight: bold; color: #0f766e;">${currentLang === 'ar' ? '👤 الاسم:' : '👤 Name:'}</td>
                         <td style="padding: 8px;">${name}</td>
                         <td style="padding: 8px; font-weight: bold; color: #0f766e;">${currentLang === 'ar' ? '🏫 الشعبة:' : '🏫 Class:'}</td>
                         <td style="padding: 8px;">${studentClass}</td>
                     </tr>
                     <tr>
-                        <td style="padding: 8px; font-weight: bold; color: #0f766e;">${currentLang === 'ar' ? '📅 التاريخ:' : ' Date:'}</td>
+                        <td style="padding: 8px; font-weight: bold; color: #0f766e;">${currentLang === 'ar' ? '📅 التاريخ:' : '📅 Date:'}</td>
                         <td style="padding: 8px;">${date}</td>
                         <td style="padding: 8px; font-weight: bold; color: #0f766e;">${currentLang === 'ar' ? '🏆 التقدير:' : '🏆 Grade:'}</td>
                         <td style="padding: 8px;">${badge}</td>
@@ -757,15 +766,15 @@ function sendResultsToEmail() {
                 <p style="margin: 0; color: #78350f; text-align: center; font-size: 13px;">
                     💡 <strong>${currentLang === 'ar' ? 'ملاحظة:' : 'Note:'}</strong> 
                     ${currentLang === 'ar' 
-                        ? 'تم إرسال هذا التقرير تلقائياً من منصة 4U التعليمية | أستاذ محمد هشام' 
-                        : 'This report was automatically sent from 4U Educational Platform | Prof. Mohammed Hesham'}
+                        ? 'تم إرسال هذا التقرير تلقائياً من منصة 4U التعليمية | Mr. Mohammed Hesham' 
+                        : 'This report was automatically sent from 4U Educational Platform | Mr. Mohammed Hesham'}
                 </p>
             </div>
         </div>
     `;
 
     const templateParams = {
-        to_email: "mohammedhesham872@gmail.com",
+        to_email: TARGET_EMAIL,
         student_name: name,
         student_class: studentClass,
         exam_date: date,
@@ -775,7 +784,7 @@ function sendResultsToEmail() {
         answers_table: answersHTML
     };
 
-    emailjs.send("service_w15m64i", "template_5b0u2tq", templateParams)
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
         .then(() => {
             status.textContent = currentLang === 'ar' 
                 ? '✅ تم إرسال النتائج بنجاح!' 
@@ -785,7 +794,7 @@ function sendResultsToEmail() {
         })
         .catch(err => {
             status.textContent = currentLang === 'ar' 
-                ? ' فشل الإرسال، حاول مرة أخرى' 
+                ? '❌ فشل الإرسال، حاول مرة أخرى' 
                 : '❌ Failed to send, try again';
             status.style.color = '#dc2626';
             btn.disabled = false;
@@ -798,7 +807,7 @@ window.addEventListener('DOMContentLoaded', () => {
     prepareShuffledExam();
     renderExam();
     startTimer();
-    console.log(' تم خلط الأسئلة والخيارات عشوائياً!');
+    console.log('🔀 تم خلط الأسئلة والخيارات عشوائياً!');
 });
 </script>
 </body>
